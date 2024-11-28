@@ -23,7 +23,7 @@
 			<div>
 				<nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #ce7f08;">
 					<a class="navbar-brand" th:href="@{/}">
-						<img th:src="@{/images/EcoMart_SoManyHere_Resized_PNG.png}"/>
+						<img th:src="@{/images/ShopmeAdminSmall.png}"/>
 					</a>
 
 					<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#topNavbar">
@@ -107,21 +107,59 @@
 								<a th:if="${user.enabled == false}" class="fas fa-check-circle fa-2x icon-dark" href=""></a>
 							</td>
 							<td>
-								<a class="fas fa-edit fa-2x icon-green" th:href="@{'/edit/users/' + ${user.id}}"
+								<a class="fas fa-edit fa-2x icon-green"
+								   th:href="@{'/edit/users/' + ${user.id}}"
 									title="Edit the user"></a>
 
 								&nbsp;
-								<a class="fas fa-trash fa-2x icon-dark" href=""></a>
+								<a class="fas fa-trash fa-2x icon-dark link-delete"
+								   th:href="@{'/delete/users/' + ${user.id}}"
+								   th:userId="${user.id}"
+								   title="Delete the user"></a>
 							</td>
 						</tr>
 					</tbody>
 				</table>
 			</div>
 
+			<div class="modal fade text-center" id="deleteConfirmModal">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h4 class="modal-title" id="modalTitle">Delete Confirmation</h4>
+							<button type="button" class="close" data-dismiss="modal">&times;</button>
+						</div>
+
+						<div class="modal-body">
+							<span id="confirmText"></span>
+						</div>
+
+						<div class="modal-footer">
+							<a class="btn btn-success" href="" id="yesButton">Yes</a>
+							<button type="button" class="btn btn-danger" data-dismiss="modal">No</button>
+						</div>
+					</div>
+				</div>
+			</div>
+
 			<div class = "text-center">
 				<p>EcoMart Control Panel - Copyright &copy; EcoMart</p>
 			</div>
 		</div>
+
+	<script type = "text/javascript">
+		$(document).ready(function(){
+			$(".link-delete").on("click", function(e){
+				e.preventDefault();
+				link = $(this);
+				//alert($(this).attr("href"));
+				userId = link.attr("userId");
+				$("#yesButton").attr("href", link.attr("href"));
+				$("#confirmText").text("Are you sure you want to delete the user with User ID: " + userId + "?");
+				$("#deleteConfirmModal").modal();
+			});
+		});
+	</script>
 
 	</body>
 </html>
