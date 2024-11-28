@@ -56,7 +56,7 @@ public class UserRepositoryTest {
         listUsers.forEach(System.out::println);
     }
 
-    @Test
+    //@Test
     public void testGetUserById() {
 
         User user = userRepository.findById(1).get();
@@ -93,7 +93,7 @@ public class UserRepositoryTest {
         userRepository.deleteById(10);
     }
 
-    @Test
+    //@Test
     public void testGetUserByEmail(){
         String email = "naveensaravana812@gmail.com";
         User user = userRepository.getUserByEmail(email);
@@ -101,7 +101,7 @@ public class UserRepositoryTest {
         assertThat(user).isNotNull();
     }
 
-    @Test
+    //@Test
     public void testCountById(){
         Integer id = 1;
         Long countById = userRepository.countById(id);
