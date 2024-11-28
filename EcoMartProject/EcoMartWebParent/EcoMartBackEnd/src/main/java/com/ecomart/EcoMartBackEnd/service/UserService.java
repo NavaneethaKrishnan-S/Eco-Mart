@@ -5,6 +5,7 @@ import com.ecomart.EcoMartBackEnd.repository.RoleRepository;
 import com.ecomart.EcoMartBackEnd.repository.UserRepository;
 import com.ecomart.EcoMartCommon.entity.Role;
 import com.ecomart.EcoMartCommon.entity.User;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -13,6 +14,7 @@ import java.util.List;
 import java.util.NoSuchElementException;
 
 @Service
+@Transactional
 public class UserService {
 
     @Autowired
@@ -86,5 +88,9 @@ public class UserService {
         }
 
         userRepository.deleteById(id);
+    }
+
+    public void updateUserEnabledStatus(Integer id, boolean enabled){
+        userRepository.updateEnabledStatus(id, enabled);
     }
 }
