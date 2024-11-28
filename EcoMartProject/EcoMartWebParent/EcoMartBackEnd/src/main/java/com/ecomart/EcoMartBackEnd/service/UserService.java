@@ -35,7 +35,20 @@ public class UserService {
 
     public void save(User user) {
 
-        encodePassword(user);
+        boolean isUpdatingUser = (user.getId() != null);
+
+        if(isUpdatingUser){
+            User existingUser = userRepository.findById(user.getId()).get();
+
+            if(user.getPassword().isEmpty()){
+                user.setPassword(existingUser.getPassword());
+            } else{
+                encodePassword(user);
+            }
+        } else{
+            encodePassword(user);
+        }
+
         userRepository.save(user);
     }
 
@@ -45,20 +58,20 @@ public class UserService {
         user.setPassword(encodedPassword);
     }
 
-    public boolean isEmailUnique(String email) {
-        /*
-        * If there is user with this email, it will give the user.
-        * Then userByEmail will be Not null
-        * Not null == null ==> false
-        * If there is no user with this email, it will give the null.
-        * Then userByEmail will be null
-        * null == null ==> true
-        * */
+    public boolean isEmailUnique(Integer id, String email) {
         User userByEmail = userRepository.getUserByEmail(email);
-        return userByEmail == null;
+
+        // If no user exists with the email, it's unique
+        if (userByEmail == null) return true;
+
+        // If creating a new user, email is not unique
+        if (id == null) return false;
+
+        // If editing a user, check if the email belongs to the same user
+        return userByEmail.getId().equals(id);
     }
 
-    public User get(Integer id) throws UserNotFoundException {
+    public User getById(Integer id) throws UserNotFoundException {
         try{
             return userRepository.findById(id).get();
         } catch (NoSuchElementException ex){

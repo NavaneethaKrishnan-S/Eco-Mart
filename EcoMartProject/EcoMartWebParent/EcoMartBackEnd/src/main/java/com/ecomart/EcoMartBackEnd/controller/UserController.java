@@ -45,7 +45,7 @@ public class UserController {
         return "create_user_form";
     }
 
-    @PostMapping("/users/save")
+    @PostMapping("/save/users")
     public String saveUser(User user, RedirectAttributes redirectAttributes){
 
         System.out.println(user);
@@ -61,7 +61,7 @@ public class UserController {
                                 RedirectAttributes redirectAttributes,
                                     Model model){
         try{
-            User existingUser = userService.get(id);
+            User existingUser = userService.getById(id);
             List<Role> allRoles =  userService.listAllRoles();
 
             model.addAttribute("user", existingUser);
